@@ -50,7 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
   private void updateUI() {
     VEvent lecture = calendarManager.getNextLecture();
-    if (lecture == null) return;
+    if (lecture == null) {
+      courseView.setText(null);
+      locationView.setText(null);
+      timeView.setText(null);
+      return;
+    }
 
     // Find the data we'd like to display…
     String location = lecture.getLocation().getValue();
@@ -75,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  public void onSetUsernameClicked(View button) {
+  public void onSetUsernameClicked(final View button) {
+    button.setEnabled(false); // Don't let people spam the button.
     final String username = usernameInput.getText().toString();
     // We ALWAYS do network on a separate thread.
     // Otherwise, the app will freeze while we are fetching data.
@@ -84,16 +90,17 @@ public class MainActivity extends AppCompatActivity {
       public void run() {
         try {
           calendarManager.downloadCalendar(username);
-          // Only the UI thread is allowed to do UI stuff.
-          runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-              updateUI();
-            }
-          });
         } catch (IOException e) {
           e.printStackTrace();
         }
+        // Only the UI thread is allowed to do UI stuff.
+        runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            updateUI();
+            button.setEnabled(true);
+          }
+        });
       }
     }).start();
   }

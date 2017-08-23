@@ -19,7 +19,7 @@ class MazeMap {
    */
   static Uri getMapLink(String roomName) throws Exception {
     Request request = new Request.Builder()
-        .url("https://api.mazemap.com/search/equery/?q=" + roomName + "&rows=1&withpois=true")
+        .url("https://api.mazemap.com/search/equery/?q=" + roomName + "&rows=1&withpois=true&campusid=1")
         .build();
     Response response = httpClient.newCall(request).execute();
     JSONObject json = new JSONObject(response.body().string());
