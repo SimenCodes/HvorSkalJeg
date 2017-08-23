@@ -1,7 +1,10 @@
 package no.hackerspace_ntnu.hvorskaljeg;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -62,4 +65,25 @@ public class MainActivity extends AppCompatActivity {
       timeView.setText("NÅ!");
     }
   }
+
+  public void onMapButtonClicked(View view) {
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          String roomName = calendarManager.getNextLecture().getLocation().getValue();
+          Uri mazeMapUrl = MazeMap.getMapLink(roomName);
+
+          // Tell Android we'd like to open this URI.
+          // It will open the MazeMap app if it is installed, or fall back to a web browser.
+          Intent intent = new Intent(Intent.ACTION_VIEW, mazeMapUrl);
+          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // MazeMap doesn't let users press "Back", so make a new task so they can use the app switcher
+          startActivity(intent);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    }).start();
+  }
+
 }
