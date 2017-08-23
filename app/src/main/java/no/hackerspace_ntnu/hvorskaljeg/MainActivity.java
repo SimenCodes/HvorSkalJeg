@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Let's init our calendar down here. Later on, we'll need to pass some arguments
     // that aren't available until onCreate has been called.
-    calendarManager = new CalendarManager();
+    calendarManager = new CalendarManager(getPreferences(MODE_PRIVATE));
   }
 
   /**

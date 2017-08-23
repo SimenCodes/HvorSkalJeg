@@ -1,5 +1,6 @@
 package no.hackerspace_ntnu.hvorskaljeg;
 
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
@@ -20,7 +21,20 @@ import okhttp3.Response;
 public class CalendarManager {
 
   static OkHttpClient httpClient = new OkHttpClient();
+  SharedPreferences preferences;
   ICalendar calendar = null;
+
+  public CalendarManager(SharedPreferences preferences) {
+    this.preferences = preferences;
+
+    // Let's try to read our stored lecture plan
+    try {
+      String ical = preferences.getString("ical", null);
+      calendar = Biweekly.parse(ical).first();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   void downloadCalendar(String username) throws IOException {
     String url = "https://ntnu.1024.no/2017/host/" + username + "/ical/forelesninger";
@@ -30,6 +44,8 @@ public class CalendarManager {
     String ical = response.body().string();
 
     calendar = Biweekly.parse(ical).first();
+    // Save the ical file so we don't have to download it later.
+    preferences.edit().putString("ical", ical).apply();
   }
 
   /**
