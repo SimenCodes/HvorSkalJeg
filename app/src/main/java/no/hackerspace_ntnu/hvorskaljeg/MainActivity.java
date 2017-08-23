@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     // Let's init our calendar down here. Later on, we'll need to pass some arguments
     // that aren't available until onCreate has been called.
     calendarManager = new CalendarManager();
+    calendarManager.downloadCalendar(""); // Whose calendar are we downloading??
   }
 
   /**
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onStart() {
     super.onStart();
     VEvent lecture = calendarManager.getNextLecture();
+    if (lecture == null) return;
 
     // Find the data we'd like to display…
     String location = lecture.getLocation().getValue();
