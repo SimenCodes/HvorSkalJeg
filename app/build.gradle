@@ -19,6 +19,7 @@ android {
     }
 }
 
+// This is where we list the libraries we need for our app to work.
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -27,4 +28,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    compile 'net.sf.biweekly:biweekly:0.6.1' // iCal parser, so we can read the calendar from 1024
+    compile 'com.squareup.okhttp3:okhttp:3.8.1' // A library that makes it OK to deal with HTTP
 }
