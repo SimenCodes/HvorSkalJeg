@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="KL11"
+        android:text="…"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="?android:attr/textColorPrimary" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/locationView"
         android:layout_centerHorizontal="true"
-        android:text="Du har AlgDat i"
+        android:text="Skriv inn 1024-brukernavn og trykk OK"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/locationView"
         android:layout_centerHorizontal="true"
-        android:text="om 7 min"
+        android:text="…"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <Button
@@ -43,4 +43,25 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="61dp" />
+
+    <EditText
+        android:id="@+id/usernameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/button2"
+        android:ems="10"
+        android:hint="1024-brukernavn"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/usernameInput"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:onClick="onSetUsernameClicked"
+        android:text="Ok" />
 </RelativeLayout>

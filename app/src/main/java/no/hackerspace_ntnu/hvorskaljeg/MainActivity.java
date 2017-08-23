@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.Date;
 
 import biweekly.component.VEvent;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
   TextView courseView;
   TextView locationView;
   TextView timeView;
+  EditText usernameInput;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
     courseView = (TextView) findViewById(R.id.courseView);
     locationView = (TextView) findViewById(R.id.locationView);
     timeView = (TextView) findViewById(R.id.timeView);
+    usernameInput = (EditText) findViewById(R.id.usernameInput);
 
     // Let's init our calendar down here. Later on, we'll need to pass some arguments
     // that aren't available until onCreate has been called.
     calendarManager = new CalendarManager();
-    calendarManager.downloadCalendar(""); // Whose calendar are we downloading??
   }
 
   /**
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onStart() {
     super.onStart();
+    updateUI();
+  }
+
+  private void updateUI() {
     VEvent lecture = calendarManager.getNextLecture();
     if (lecture == null) return;
 
@@ -66,6 +73,29 @@ public class MainActivity extends AppCompatActivity {
       // Lecture started just now!
       timeView.setText("NÅ!");
     }
+  }
+
+  public void onSetUsernameClicked(View button) {
+    final String username = usernameInput.getText().toString();
+    // We ALWAYS do network on a separate thread.
+    // Otherwise, the app will freeze while we are fetching data.
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          calendarManager.downloadCalendar(username);
+          // Only the UI thread is allowed to do UI stuff.
+          runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              updateUI();
+            }
+          });
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }).start();
   }
 
   public void onMapButtonClicked(View view) {
