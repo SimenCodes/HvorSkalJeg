@@ -1,8 +1,10 @@
 package no.hackerspace_ntnu.hvorskaljeg;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 import biweekly.component.VEvent;
 
@@ -110,19 +113,58 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void run() {
         try {
-          String roomName = calendarManager.getNextLecture().getLocation().getValue();
-          Uri mazeMapUrl = MazeMap.getMapLink(roomName);
-
-          // Tell Android we'd like to open this URI.
-          // It will open the MazeMap app if it is installed, or fall back to a web browser.
-          Intent intent = new Intent(Intent.ACTION_VIEW, mazeMapUrl);
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // MazeMap doesn't let users press "Back", so make a new task so they can use the app switcher
-          startActivity(intent);
+          VEvent nextLecture = calendarManager.getNextLecture();
+          if (nextLecture == null) return;
+          final String roomName = nextLecture.getLocation().getValue();
+          final Map<String, Uri> results = MazeMap.getMapLink(roomName);
+          if (results.size() == 1) {
+            // If there's only one result, go right there.
+            Uri link = results.values().iterator().next();
+            openMazeMap(link);
+          } else {
+            // If there are multiple results, display a dialog
+            // and let the user select the right room.
+            runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                displayRoomDialog(roomName, results);
+              }
+            });
+          }
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
     }).start();
+  }
+
+  /**
+   * Displays a dialog where the user can select a room.
+   * @param roomName The room the user is searching for
+   * @param rooms A map of user-friendly room descriptions and MazeMap links
+   */
+  void displayRoomDialog(String roomName, final Map<String, Uri> rooms) {
+    final String[] names = rooms.keySet().toArray(new String[]{});
+    new AlertDialog.Builder(MainActivity.this)
+        .setTitle("Hvilket " + roomName + "?")
+        .setItems(names, new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int indexOfClickedName) {
+            // Open the link corresponding to the selected room.
+            Uri link = rooms.get(names[indexOfClickedName]);
+            openMazeMap(link);
+          }
+        })
+        .show();
+
+  }
+
+  private void openMazeMap(Uri link) {
+    // Tell Android we'd like to open this URI.
+    // It will open the MazeMap app if it is installed, or fall back to a web browser.
+    Intent intent = new Intent(Intent.ACTION_VIEW, link);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // MazeMap doesn't let users press "Back", so make a new task so they can use the app switcher
+    startActivity(intent);
   }
 
 }
