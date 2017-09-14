@@ -73,17 +73,17 @@ public class MainActivity extends AppCompatActivity {
     locationView.setText(location);
     if (minutes > 1) {
       // Plenty of time until lecture starts (famous last words)
-      timeView.setText("om " + minutes + " min");
+      timeView.setText("om " + minutes + " minutter");
     } else if (minutes < -5) {
       // Lecture has started already
-      timeView.setText("for " + minutes + " min siden");
+      timeView.setText("for " + minutes + " minutter siden");
     } else {
       // Lecture started just now!
       timeView.setText("NÅ!");
     }
   }
 
-  public void onSetUsernameClicked(final View button) {
+  public void onDownloadClicked(final View button) {
     button.setEnabled(false); // Don't let people spam the button.
     final String username = usernameInput.getText().toString();
     // We ALWAYS do network on a separate thread.
