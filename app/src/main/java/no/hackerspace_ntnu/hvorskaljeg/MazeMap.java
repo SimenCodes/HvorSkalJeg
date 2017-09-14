@@ -1,13 +1,14 @@
 package no.hackerspace_ntnu.hvorskaljeg;
 
 import android.net.Uri;
-import android.support.v4.util.ArrayMap;
 import android.text.Html;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,13 +26,13 @@ class MazeMap {
    */
   static Map<String, Uri> getMapLink(String roomName) throws Exception {
     Request request = new Request.Builder()
-        .url("https://api.mazemap.com/search/equery/?q=" + roomName + "&rows=20&withpois=true&campusid=1")
+        .url("https://api.mazemap.com/search/equery/?q=" + roomName + "&rows=5&withpois=true&campusid=1")
         .build();
     Response response = httpClient.newCall(request).execute();
     JSONObject json = new JSONObject(response.body().string());
     JSONArray rooms = json.getJSONArray("result");
 
-    Map<String, Uri> results = new ArrayMap<>();
+    SortedMap<String, Uri> results = new TreeMap<>();
     for (int i = 0; i < rooms.length(); i++) {
       // Some ugly code to decipher what kind of thing MazeMap found.
       JSONObject roomInfo = rooms.getJSONObject(i);
