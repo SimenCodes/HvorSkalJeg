@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,19 @@ public class CalendarManager {
     }
 
     void downloadCalendar(String username) throws IOException {
-        String url = "https://ntnu.1024.no/2017/host/" + username + "/ical/forelesninger";
+        Calendar now = Calendar.getInstance();
+        int month = now.get(Calendar.MONTH);
+        int year = now.get(Calendar.YEAR);
+        String semester;
+
+        if(month > 6){
+            semester = "host";
+        } else{
+            semester = "var";
+        }
+
+        //Log.w("CalendarManager", year + "");
+        String url = "https://ntnu.1024.no/" + year +"/" + semester + "/" + username + "/ical/forelesninger";
 
         Request request = new Request.Builder().url(url).build();
         Response response = httpClient.newCall(request).execute();
