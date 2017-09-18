@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
       timeView.setText("om " + minutes + " minutter");
     } else if (minutes < -5) {
       // Lecture has started already
-      timeView.setText("for " + minutes + " minutter siden");
+      timeView.setText("for " + (-minutes) + " minutter siden");
     } else {
       // Lecture started just now!
       timeView.setText("NÅ!");
