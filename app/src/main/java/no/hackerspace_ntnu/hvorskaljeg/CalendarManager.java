@@ -43,7 +43,7 @@ public class CalendarManager {
         int year = now.get(Calendar.YEAR);
         String semester;
 
-        if(month > 6){
+        if(month >= 6){
             semester = "host";
         } else{
             semester = "var";
