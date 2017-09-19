@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="no.hackerspace_ntnu.hvorskaljeg.MainActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                tools:context="no.hackerspace_ntnu.hvorskaljeg.MainActivity">
 
     <TextView
         android:id="@+id/locationView"
@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:text="…"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textColor="?android:attr/textColorPrimary"/>
 
     <TextView
         android:id="@+id/courseView"
@@ -36,13 +36,13 @@
 
     <Button
         android:id="@+id/button"
-        android:onClick="onMapButtonClicked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hvor i huleste er det?"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="61dp" />
+        android:layout_marginBottom="61dp"
+        android:onClick="onMapButtonClicked"
+        android:text="Hvor i huleste er det?"/>
 
     <EditText
         android:id="@+id/usernameInput"
@@ -53,7 +53,7 @@
         android:layout_toStartOf="@+id/button2"
         android:ems="10"
         android:hint="1024-brukernavn"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"/>
 
     <Button
         android:id="@+id/button2"
@@ -63,5 +63,5 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:onClick="onDownloadClicked"
-        android:text="Ok" />
+        android:text="Ok"/>
 </RelativeLayout>
