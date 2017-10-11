@@ -71,12 +71,24 @@ public class MainActivity extends AppCompatActivity {
         // …and display it
         courseView.setText("Du skal ha " + course + " i");
         locationView.setText(location);
-        if (minutes > 1) {
+        if (minutes > 60) {
             // Plenty of time until lecture starts (famous last words)
+            if ((minutes / 1440) == 1) {
+                timeView.setText("om " + minutes / 1440 + " dag og " + (minutes / 60) % 24 + " timer");
+            } else if ((minutes / 1440) < 1) {
+                timeView.setText("om " + (minutes / 60) % 24 + " timer");
+            } else {
+                timeView.setText("om " + minutes / 1440 + " dager og " + (minutes / 60) % 24 + " timer");
+            }
+        } else if (minutes < 60 & minutes > 1) {
             timeView.setText("om " + minutes + " minutter");
         } else if (minutes < -5) {
             // Lecture has started already
-            timeView.setText("for " + (-minutes) + " minutter siden");
+            if (minutes > -60) {
+                timeView.setText("for " + (-minutes) + " minutter siden");
+            } else {
+                timeView.setText("for " + (-minutes / 60) % 24 + " timer siden");
+            }
         } else {
             // Lecture started just now!
             timeView.setText("NÅ!");
@@ -147,16 +159,16 @@ public class MainActivity extends AppCompatActivity {
     void displayRoomDialog(String roomName, final Map<String, Uri> rooms) {
         final String[] names = rooms.keySet().toArray(new String[]{});
         new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Hvilket " + roomName + "?")
-                .setItems(names, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int indexOfClickedName) {
-                        // Open the link corresponding to the selected room.
-                        Uri link = rooms.get(names[indexOfClickedName]);
-                        openMazeMap(link);
-                    }
-                })
-                .show();
+            .setTitle("Hvilket " + roomName + "?")
+            .setItems(names, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int indexOfClickedName) {
+                    // Open the link corresponding to the selected room.
+                    Uri link = rooms.get(names[indexOfClickedName]);
+                    openMazeMap(link);
+                }
+            })
+            .show();
 
     }
 

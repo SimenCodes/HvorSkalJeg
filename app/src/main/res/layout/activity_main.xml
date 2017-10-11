@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                tools:context="no.hackerspace_ntnu.hvorskaljeg.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorPrimary"
+    tools:context="no.hackerspace_ntnu.hvorskaljeg.MainActivity">
 
     <TextView
         android:id="@+id/locationView"
@@ -14,7 +16,8 @@
         android:layout_centerVertical="true"
         android:text="…"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="?android:attr/textColorPrimary"/>
+        android:textColor="?android:attr/textColorPrimary"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/courseView"
@@ -36,13 +39,14 @@
 
     <Button
         android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="61dp"
         android:onClick="onMapButtonClicked"
-        android:text="Hvor i huleste er det?"/>
+        android:text="Hvor i huleste er det?" />
 
     <EditText
         android:id="@+id/usernameInput"
@@ -57,11 +61,13 @@
 
     <Button
         android:id="@+id/button2"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/usernameInput"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:onClick="onDownloadClicked"
-        android:text="Ok"/>
+        android:text="Hent" />
+
 </RelativeLayout>
