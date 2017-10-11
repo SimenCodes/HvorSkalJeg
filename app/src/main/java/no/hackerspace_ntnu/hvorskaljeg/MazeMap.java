@@ -32,6 +32,7 @@ class MazeMap {
         JSONObject json = new JSONObject(response.body().string());
         JSONArray rooms = json.getJSONArray("result");
 
+        boolean didFindExactMatch = false;
         SortedMap<String, Uri> results = new TreeMap<>();
         for (int i = 0; i < rooms.length(); i++) {
             // Some ugly code to decipher what kind of thing MazeMap found.
@@ -47,7 +48,17 @@ class MazeMap {
             String roomId = roomInfo.getString("poiId");
             Uri link = Uri.parse("https://use.mazemap.com/?v=1&sharepoitype=poi&sharepoi=" + roomId);
 
-            results.put(roomDescription, link);
+            if (roomName.equals(displayName)) {
+                // If we find an exact match, clear the results and only include exact matches from now on.
+                if (!didFindExactMatch) {
+                    results.clear();
+                    didFindExactMatch = true;
+                }
+                results.put(roomDescription, link);
+            } else if (!didFindExactMatch) {
+                // Only include non-exact matches if we haven't found an exact match yet.
+                results.put(roomDescription, link);
+            }
         }
 
         return results;
