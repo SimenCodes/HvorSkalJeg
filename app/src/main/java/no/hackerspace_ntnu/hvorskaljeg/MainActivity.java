@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onDownloadClicked(final View button) {
         button.setEnabled(false); // Don't let people spam the button.
-        final String username = usernameInput.getText().toString();
+        final String username = usernameInput.getText().toString().toLowerCase().trim();
         // We ALWAYS do network on a separate thread.
         // Otherwise, the app will freeze while we are fetching data.
         new Thread(new Runnable() {

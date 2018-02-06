@@ -56,7 +56,7 @@
         android:layout_toStartOf="@+id/button2"
         android:ems="10"
         android:hint="1024-brukernavn"
-        android:inputType="textPersonName"/>
+        android:inputType="textAutoComplete"/>
 
     <Button
         android:id="@+id/button2"
